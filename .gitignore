@@ -3,3 +3,9 @@ BUILD/
 build/
 install/
 .sconsign.dblite
+
+
+# Added by cargo
+
+/target
+Cargo.lock
