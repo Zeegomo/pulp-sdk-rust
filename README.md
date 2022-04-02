@@ -1,4 +1,4 @@
-# PULP-SDK
+# Rust bindings for PULP-SDK
 
 This is the latest version of the PULP SDK, which is under active development. The previous (now legacy) version, which is no longer supported, is on the [`v1` branch](https://github.com/pulp-platform/pulp-sdk/tree/v1).
 
