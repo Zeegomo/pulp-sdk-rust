@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/rust:0-${VARIANT}
 
 RUN apt update && export DEBIAN_FRONTEND=noninteractive \
     && apt -y install --no-install-recommends  build-essential git libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev
-RUN apt install llvm-dev libclang-dev clang
+RUN apt -y install llvm-dev libclang-dev clang
 
 
 ADD "https://github.com/pulp-platform/pulp-riscv-gnu-toolchain/releases/download/v1.0.16/v1.0.16-pulp-riscv-gcc-ubuntu-18.tar.bz2" /tmp/pulp-riscv-gnu
