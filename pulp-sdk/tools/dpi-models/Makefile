@@ -56,7 +56,7 @@ $(BUILD_DIR)/libpulpperiph.so: $(PERIPH_OBJS)
 
 clean:
 	rm -rf $(BUILD_DIR)
-	make -C models clean
+	$(MAKE) -C models clean
 
 
 $(INSTALL_DIR)/lib/libpulpdpi.so: $(BUILD_DIR)/libpulpdpi.so
@@ -90,7 +90,7 @@ $(foreach file, $(HEADER_FILES), $(eval $(call declareInstallFile,$(file))))
 
 
 build: $(INSTALL_HEADERS) $(INSTALL_TARGETS) $(INSTALL_DIR)/rules/dpi_rules.mk
-	make -C models build
+	$(MAKE) -C models build
 
 
 checkout:

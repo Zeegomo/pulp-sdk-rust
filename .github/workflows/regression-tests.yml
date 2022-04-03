@@ -32,14 +32,14 @@ jobs:
       - name: Build PULP-SDK
         run: |
           source temp_env
-          source configs/pulp-open.sh
+          source pulp-sdk/configs/pulp-open.sh
           make build
           cd ${{ github.workspace }}
           export -p > temp_env
       - name: Launch regression tests
         run: |
           source temp_env
-          cd tests/
+          cd pulp-sdk/tests/
           dirs=$(dirname $(find . -name "Makefile" -printf "%P\n")); for file in ${dirs}; do cd ${file}; echo ${file}; rm -rf BUILD/; make clean all run; cd -; done;
           cd ${{ github.workspace }}
           export -p > temp_env

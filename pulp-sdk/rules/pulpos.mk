@@ -19,7 +19,7 @@ pulpos.build:
 pulpos.clean:
 
 pulpos.src:
-	make -C tools/pulpos src INSTALL_DIR=$(ARTIFACT_PATH)/tools/pulpos
+	$(MAKE) -C tools/pulpos src INSTALL_DIR=$(ARTIFACT_PATH)/tools/pulpos
 
 pulpos.build.all: pulpos.build.deps pulpos.build
 

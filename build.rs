@@ -5,6 +5,7 @@ const MAKE_CC_INVOCATION: &str = "riscv32-unknown-elf-gcc";
 const REGEX_PATTERN: &str = ".*riscv32-unknown-elf-gcc *-c test.c -o *.*test.o (.*)";
 
 fn extract_clang_args() -> Vec<String> {
+    // TODO: source configs for this env instead of the global one
     let make = std::process::Command::new("make")
         .args(["-C", "dummy", "dummy.c", "build", "--trace"])
         .output()
@@ -63,8 +64,9 @@ fn main() {
     let args = extract_clang_args();
     builder = builder.clang_args(&args);
 
+    // TODO: use PULP-capable clang version
     let bindings = builder
-        .header("rtos/wrapper.h")
+        .header("pulp-sdk/rtos/wrapper.h")
         .generate()
         .expect("Unable to generate bindings");
 
