@@ -56,9 +56,8 @@ fn main() {
     // The whole pulp sw stack is built upon makefiles and it's a bit of a nightmare
     // to track what options / configs are being used.
     // To get the list of libraries to include, header files and compiler options run make
-    // on a dummy file and reflect thos in bindgen clang args
-    let args = extract_clang_args();
-    builder = builder.clang_args(&args);
+    // on a dummy file and reflect those in bindgen clang args
+    builder = builder.clang_args(&extract_clang_args());
 
     // TODO: use PULP-capable clang version
     let bindings = builder
