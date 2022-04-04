@@ -11,3 +11,7 @@ edition = "2021"
 [build-dependencies]
 bindgen = "0.59"
 regex = "1"
+
+
+[features]
+bundled = []
