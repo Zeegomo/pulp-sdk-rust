@@ -2,15 +2,14 @@ use std::env;
 use std::path::PathBuf;
 
 const MAKE_CC_INVOCATION: &str = "riscv32-unknown-elf-gcc";
-const REGEX_PATTERN: &str = ".*riscv32-unknown-elf-gcc *-c test.c -o *.*test.o (.*)";
+const REGEX_PATTERN: &str = ".*riscv32-unknown-elf-gcc *-c dummy.c -o *.*dummy.o (.*)";
 
 fn extract_clang_args() -> Vec<String> {
     // TODO: source configs for this env instead of the global one
     let make = std::process::Command::new("make")
-        .args(["-C", "dummy", "dummy.c", "build", "--trace"])
+        .args(["-C", "dummy", "clean", "dummy.c", "build", "--trace"])
         .output()
         .expect("Could not run make");
-    println!("{}", String::from_utf8(make.stderr).unwrap());
     assert!(make.status.success(), "make failed");
     let output = String::from_utf8(make.stdout)
         .expect("invalid utf8")
@@ -19,7 +18,6 @@ fn extract_clang_args() -> Vec<String> {
         .next()
         .unwrap()
         .to_owned();
-
     let args = regex::Regex::new(REGEX_PATTERN)
         .unwrap()
         .captures(&output)
@@ -27,7 +25,7 @@ fn extract_clang_args() -> Vec<String> {
         .get(1)
         .unwrap()
         .as_str()
-        .replace("-include ", "include"); // GCC to Clang compat
+        .replace("-include ", "-include"); // GCC to Clang compat
     let args = args.split_whitespace();
     let defines = args.clone().filter(|s| s.starts_with("-D"));
     let includes = args.clone().filter(|s| s.contains("-include"));
@@ -42,9 +40,7 @@ fn extract_clang_args() -> Vec<String> {
 fn main() {
     let target = env::var("TARGET").expect("Cargo build scripts always have TARGET");
     let host = env::var("HOST").expect("Cargo build scripts always have HOST");
-    // Tell cargo to tell rustc to link the system bzip2
-    // shared library.
-    println!("cargo:rustc-link-search=rtos/pmsis_bsp/include");
+    // TODO: Tell cargo to tell rustc to link to pulp-sdk lib
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=rtos/wrapper.h");
 
