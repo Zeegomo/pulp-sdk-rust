@@ -20,3 +20,8 @@ ENV PULP_RISCV_GCC_TOOLCHAIN "/opt/riscv"
 WORKDIR /opt/
 RUN bash -c "git clone https://github.com/pulp-platform/pulp-sdk && cd pulp-sdk && source configs/pulp-open.sh && make build"
 RUN echo "source /opt/pulp-sdk/configs/pulp-open.sh" >> /home/vscode/.bashrc
+
+# build pulp-capable llvm and clang
+ADD https://github.com/pulp-platform/llvm-project/releases/download/0.12.0/riscv32-pulp-llvm-ubuntu1804-0.12.0.tar.gz /tmp/pulp-riscv-llvm
+WORKDIR /tmp/
+RUN tar -xvf /tmp/pulp-riscv-llvm && mv /tmp/riscv32-pulp-llvm-ubuntu1804-0.12.0 /opt/riscv-llvm/
