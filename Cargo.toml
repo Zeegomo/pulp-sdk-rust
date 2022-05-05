@@ -7,14 +7,5 @@ edition = "2021"
 [lib]
 crate-type = ["staticlib"]
 
-
 [dependencies]
 cty = "0.2"
-
-[build-dependencies]
-bindgen = "0.59"
-regex = "1"
-cc = "*"
-
-[features]
-bundled = []
