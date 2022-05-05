@@ -4,7 +4,7 @@ use std::path::PathBuf;
 const MAKE_CC_INVOCATION: &str = "riscv32-unknown-elf-gcc";
 const REGEX_PATTERN: &str = ".*riscv32-unknown-elf-gcc *-c dummy.c -o *.*dummy.o (.*)";
 
-fn extract_clang_args() -> Vec<String> {
+fn extract_args() -> Vec<String> {
     // TODO: source configs for this env instead of the global one
     let make = std::process::Command::new("make")
         .args(["-C", "dummy", "clean", "dummy.c", "build", "--trace"])
@@ -24,8 +24,8 @@ fn extract_clang_args() -> Vec<String> {
         .unwrap()
         .get(1)
         .unwrap()
-        .as_str()
-        .replace("-include ", "-include"); // GCC to Clang compat
+        .as_str();
+       // .replace("-include ", "-include"); // GCC to Clang compat
     let args = args.split_whitespace();
     let defines = args.clone().filter(|s| s.starts_with("-D"));
     let includes = args.clone().filter(|s| s.contains("-include"));
@@ -38,36 +38,37 @@ fn extract_clang_args() -> Vec<String> {
 }
 
 fn main() {
-    let target = env::var("TARGET").expect("Cargo build scripts always have TARGET");
-    let host = env::var("HOST").expect("Cargo build scripts always have HOST");
-    // TODO: Tell cargo to tell rustc to link to pulp-sdk lib
-    // Tell cargo to invalidate the built crate whenever the wrapper changes
-    println!("cargo:rerun-if-changed=rtos/wrapper.h");
+    // let target = env::var("TARGET").expect("Cargo build scripts always have TARGET");
+    // let host = env::var("HOST").expect("Cargo build scripts always have HOST");
+    // // TODO: Tell cargo to tell rustc to link to pulp-sdk lib
+    // // Tell cargo to invalidate the built crate whenever the wrapper changes
+    // println!("cargo:rerun-if-changed=rtos/wrapper.h");
 
-    // The bindgen::Builder is the main entry point
-    // to bindgen, and lets you build up options for
-    // the resulting bindings.
-    let mut builder = bindgen::Builder::default().use_core().emit_builtins();
+    // // The bindgen::Builder is the main entry point
+    // // to bindgen, and lets you build up options for
+    // // the resulting bindings.
+    // let mut builder = bindgen::Builder::default().use_core().emit_builtins();
 
-    if target != host {
-        builder = builder.clang_args(["-target", &target]);
-    }
+    // // if target != host {
+    // //     // TODO: remove this hack
+    // //     builder = builder.clang_args(["-target", "riscv32"]);
+    // // }
 
-    // The whole pulp sw stack is built upon makefiles and it's a bit of a nightmare
-    // to track what options / configs are being used.
-    // To get the list of libraries to include, header files and compiler options run make
-    // on a dummy file and reflect those in bindgen clang args
-    builder = builder.clang_args(&extract_clang_args());
+    // // The whole pulp sw stack is built upon makefiles and it's a bit of a nightmare
+    // // to track what options / configs are being used.
+    // // To get the list of libraries to include, header files and compiler options run make
+    // // on a dummy file and reflect those in bindgen clang args
+    // builder = builder.clang_args(&extract_clang_args());
 
-    // TODO: use PULP-capable clang version
-    let bindings = builder
-        .header("pulp-sdk/rtos/wrapper.h")
-        .generate()
-        .expect("Unable to generate bindings");
+    // // TODO: use PULP-capable clang version
+    // let bindings = builder
+    //     .header("pulp-sdk/rtos/wrapper.h")
+    //     .generate()
+    //     .expect("Unable to generate bindings");
 
-    // Write the bindings to the $OUT_DIR/bindings.rs file.
-    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    bindings
-        .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+    // // Write the bindings to the $OUT_DIR/bindings.rs file.
+    // let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    // bindings
+    //     .write_to_file(out_path.join("bindings.rs"))
+    //     .expect("Couldn't write bindings!");
 }
