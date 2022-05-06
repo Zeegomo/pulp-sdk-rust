@@ -11,6 +11,10 @@ pub fn pi_cl_dma_wait(copy: &mut pi_cl_dma_cmd_t) {
     unsafe { pi_cl_dma_wait_wrap(copy as *mut pi_cl_dma_cmd_t as *mut cty::c_void) }
 }
 
+pub fn pi_cl_team_barrier() {
+    unsafe { pi_cl_team_barrier_wrap () }
+}
+
 // TODO: rewrite this as a safe function
 pub unsafe fn pi_cl_team_fork(
     num_cores: usize,
@@ -18,11 +22,4 @@ pub unsafe fn pi_cl_team_fork(
     args: *mut cty::c_void,
 ) {
     pi_cl_team_fork_wrap(num_cores, cluster_fn, args);
-}
-
-use core::panic::PanicInfo;
-
-#[panic_handler]
-fn panic(_panic: &PanicInfo<'_>) -> ! {
-    loop {}
 }
