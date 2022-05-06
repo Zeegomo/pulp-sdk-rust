@@ -1,10 +1,10 @@
 use std::process::Command;
 use std::path::Path;
-const WRAPPER_LIB_DIR: &str = "dummy/BUILD/PULP/GCC_RISCV/dummy";
+const WRAPPER_LIB_DIR: &str = "wrapper/BUILD/PULP/GCC_RISCV/wrapper";
 
 fn main() {
-    Command::new("make").args(&["clean", "all"]).current_dir("dummy").status().unwrap();
-    Command::new("ar").args(&["crus", "libwrapper.a", "dummy.o"])
+    Command::new("make").args(&["clean", "all"]).current_dir("wrapper").status().unwrap();
+    Command::new("ar").args(&["crus", "libwrapper.a", "wrapper.o"])
                       .current_dir(&Path::new(WRAPPER_LIB_DIR))
                       .status().unwrap();
     println!("cargo:rustc-link-search=native={}", WRAPPER_LIB_DIR);

@@ -2,7 +2,7 @@
 # COMPILER FLAGS
 APP_CFLAGS += -O3
 
-APP = dummy
-APP_SRCS	+= dummy.c main.c
+APP = wrapper
+APP_SRCS	+= wrapper.c main.c
 
 include $(RULES_DIR)/pmsis_rules.mk
