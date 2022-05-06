@@ -13,6 +13,13 @@ impl PiClDmaCmd {
     }
 }
 
+impl Default for PiClDmaCmd {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+
 #[allow(non_camel_case_types)]
 #[repr(C)]
 pub enum PiClDmaDirE {
