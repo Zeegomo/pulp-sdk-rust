@@ -3,6 +3,6 @@
 APP_CFLAGS += -O3
 
 APP = dummy
-APP_SRCS	+= dummy.c 
+APP_SRCS	+= dummy.c main.c
 
 include $(RULES_DIR)/pmsis_rules.mk

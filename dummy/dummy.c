@@ -23,7 +23,3 @@ void abort_all(){
 void pi_cl_dma_wait_wrap(void* copy){
   pi_cl_dma_wait(copy);
 }
-
-int main() {
-  return 0;
-}
