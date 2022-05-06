@@ -3,12 +3,12 @@
 mod bindings;
 pub use bindings::*;
 
-pub fn pi_cl_dma_cmd(ext: u32, loc: u32, size: u32, dir: PiClDmaDirE, cmd: &mut pi_cl_dma_cmd_t) {
-    unsafe { pi_cl_dma_cmd_wrap(ext, loc, size, dir, cmd as *mut pi_cl_dma_cmd_t) }
+pub fn pi_cl_dma_cmd(ext: u32, loc: u32, size: u32, dir: PiClDmaDirE, cmd: &mut PiClDmaCmd) {
+    unsafe { pi_cl_dma_cmd_wrap(ext, loc, size, dir, cmd as *mut PiClDmaCmd) }
 }
 
-pub fn pi_cl_dma_wait(copy: &mut pi_cl_dma_cmd_t) {
-    unsafe { pi_cl_dma_wait_wrap(copy as *mut pi_cl_dma_cmd_t as *mut cty::c_void) }
+pub fn pi_cl_dma_wait(copy: &mut PiClDmaCmd) {
+    unsafe { pi_cl_dma_wait_wrap(copy as *mut PiClDmaCmd as *mut cty::c_void) }
 }
 
 pub fn pi_cl_team_barrier() {

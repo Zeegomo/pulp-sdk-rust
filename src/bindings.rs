@@ -1,7 +1,16 @@
 #[repr(C)]
-pub struct pi_cl_dma_cmd_t {
+pub struct PiClDmaCmd {
     id: cty::c_int,
     next: *mut Self,
+}
+
+impl PiClDmaCmd {
+    pub fn new() -> Self {
+        Self {
+            id: 0,
+            next: core::ptr::null_mut()
+        }
+    }
 }
 
 #[allow(non_camel_case_types)]
@@ -17,7 +26,7 @@ extern "C" {
         loc: cty::uint32_t,
         size: cty::uint32_t,
         dir: PiClDmaDirE,
-        cmd: *mut pi_cl_dma_cmd_t,
+        cmd: *mut PiClDmaCmd,
     );
 
     pub fn pi_cl_dma_wait_wrap(copy: *mut cty::c_void);
