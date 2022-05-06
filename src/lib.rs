@@ -1,8 +1,6 @@
 #![no_std]
 
-#[cfg(target_arch = "riscv32")]
 mod bindings;
-
 pub use bindings::*;
 
 pub fn pi_cl_dma_cmd(ext: u32, loc: u32, size: u32, dir: PiClDmaDirE, cmd: &mut pi_cl_dma_cmd_t) {
