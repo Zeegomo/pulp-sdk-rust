@@ -1,5 +1,6 @@
 #![no_std]
 #![feature(allocator_api)]
+#![feature(alloc_error_handler)]
 #![feature(nonnull_slice_from_raw_parts)]
 
 use core::sync::atomic::*;

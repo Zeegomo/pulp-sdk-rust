@@ -31,3 +31,9 @@ unsafe impl GlobalAlloc for GlobalAllocator {
     unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) { }
 
 }
+
+#[alloc_error_handler]
+fn abort_on_alloc_err(_: core::alloc::Layout) -> ! {
+    unsafe { crate::abort_all(); }
+    loop {}
+}
