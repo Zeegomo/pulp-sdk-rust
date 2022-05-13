@@ -50,6 +50,8 @@ extern "C" {
 
     pub fn pi_l2_malloc(size: cty::c_int) -> *mut cty::c_int;
 
+    pub fn pi_l2_free(chunk: *mut cty::c_void, size: cty::c_int);
+
     pub fn pi_cl_l1_malloc(size: cty::c_int) -> *mut cty::c_int;
 }
 
