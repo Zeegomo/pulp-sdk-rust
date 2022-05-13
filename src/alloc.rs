@@ -34,6 +34,7 @@ unsafe impl GlobalAlloc for GlobalAllocator {
 
 }
 
+#[derive(Clone, Copy)]
 pub struct ClusterAllocator{
     cluster: *mut PiDevice,
 }
