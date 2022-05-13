@@ -1,7 +1,13 @@
 #![no_std]
+#![feature(allocator_api)]
+#![feature(nonnull_slice_from_raw_parts)]
+
 use core::sync::atomic::*;
 
 mod bindings;
+mod alloc;
+
+pub use alloc::*;
 pub use bindings::*;
 
 pub fn pi_cl_dma_cmd(ext: u32, loc: u32, size: u32, dir: PiClDmaDirE, cmd: &mut PiClDmaCmd) {
