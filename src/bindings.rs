@@ -27,6 +27,20 @@ pub enum PiClDmaDirE {
     PI_CL_DMA_DIR_EXT2LOC = 1,
 }
 
+#[repr(C)]
+pub struct PiDevice {
+    api: *mut PiDeviceApi,
+    config: *mut cty::c_void,
+    data: *mut cty::c_void
+}
+
+#[repr(C)]
+pub struct PiDeviceApi {
+    _data: [u8; 0],
+    _marker:
+        core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
 extern "C" {
     pub fn pi_cl_dma_cmd_wrap(
         ext: cty::uint32_t,
@@ -48,11 +62,13 @@ extern "C" {
 
     pub fn pi_cl_team_barrier_wrap();
 
-    pub fn pi_l2_malloc(size: cty::c_int) -> *mut cty::c_int;
+    pub fn pi_l2_malloc(size: cty::c_int) -> *mut cty::c_void;
 
     pub fn pi_l2_free(chunk: *mut cty::c_void, size: cty::c_int);
 
-    pub fn pi_cl_l1_malloc(size: cty::c_int) -> *mut cty::c_int;
+    pub fn pi_cl_l1_malloc(cluster: *mut PiDevice, size: cty::c_int) -> *mut cty::c_void;
+
+    pub fn pi_cl_l1_free(cluster: *mut PiDevice, chunk: *mut cty::c_void, size: cty::c_int);
 }
 
 #[inline(always)]
