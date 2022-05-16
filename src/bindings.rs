@@ -120,7 +120,7 @@ impl PiClRamReq {
             done: 0,
             cid: 0,
             ext2loc: 0,
-            is_2d: 0
+            is_2d: 0,
         }
     }
 }
@@ -157,7 +157,6 @@ impl PiTask {
         }
     }
 }
-
 
 #[inline(always)]
 pub unsafe fn pi_core_id() -> usize {

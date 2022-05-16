@@ -11,11 +11,25 @@ mod bindings;
 pub use alloc::*;
 pub use bindings::*;
 
-pub fn pi_cl_dma_cmd(ext: u32, loc: u32, size: u32, dir: PiClDmaDirE, cmd: &mut PiClDmaCmd) {
+pub fn pi_cl_dma_cmd(
+    ext: *mut u8,
+    loc: *mut u8,
+    size: usize,
+    dir: PiClDmaDirE,
+    cmd: &mut PiClDmaCmd,
+) {
     // Prevent the compiler from reordering a volatile read / write
     // not sure this is really needed given the call to an opaque function
     fence(Ordering::Release);
-    unsafe { pi_cl_dma_cmd_wrap(ext, loc, size, dir, cmd as *mut PiClDmaCmd) }
+    unsafe {
+        pi_cl_dma_cmd_wrap(
+            ext as usize as u32,
+            loc as usize as u32,
+            size as u32,
+            dir,
+            cmd as *mut PiClDmaCmd,
+        )
+    }
 }
 
 pub fn pi_cl_dma_wait(copy: &mut PiClDmaCmd) {
@@ -40,7 +54,15 @@ pub fn pi_cl_ram_read(
     size: usize,
     req: &mut PiClRamReq,
 ) {
-    unsafe { pi_cl_ram_read_wrap(device, pi_ram_addr as cty::uint32_t, addr as *mut cty::c_void, size as cty::uint32_t, req as *mut PiClRamReq) }
+    unsafe {
+        pi_cl_ram_read_wrap(
+            device,
+            pi_ram_addr as cty::uint32_t,
+            addr as *mut cty::c_void,
+            size as cty::uint32_t,
+            req as *mut PiClRamReq,
+        )
+    }
 }
 
 pub fn pi_cl_ram_write(
@@ -50,7 +72,15 @@ pub fn pi_cl_ram_write(
     size: usize,
     req: &mut PiClRamReq,
 ) {
-    unsafe { pi_cl_ram_write_wrap(device, pi_ram_addr as cty::uint32_t, addr as *mut cty::c_void, size as cty::uint32_t, req as *mut PiClRamReq) }
+    unsafe {
+        pi_cl_ram_write_wrap(
+            device,
+            pi_ram_addr as cty::uint32_t,
+            addr as *mut cty::c_void,
+            size as cty::uint32_t,
+            req as *mut PiClRamReq,
+        )
+    }
 }
 
 // TODO: compiler fence?
