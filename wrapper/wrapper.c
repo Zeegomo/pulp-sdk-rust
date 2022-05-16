@@ -23,3 +23,29 @@ void abort_all(){
 void pi_cl_dma_wait_wrap(void* copy){
   pi_cl_dma_wait(copy);
 }
+
+void pi_cl_ram_read_wait_wrap(pi_cl_ram_req_t* req) {
+    pi_cl_ram_read_wait(req)
+}
+
+void pi_cl_ram_write_wait_wrap(pi_cl_ram_req_t* req) {
+    pi_cl_ram_write_wait(req)
+}
+
+void pi_cl_ram_read_wrap( 	struct pi_device *  	device,
+		uint32_t  	pi_ram_addr,
+		void *  	addr,
+		uint32_t  	size,
+		pi_cl_ram_req_t *  	req 
+	){
+  pi_cl_ram_read(device, pi_ram_addr, addr, size, req)
+}
+
+void pi_cl_ram_write_wrap( 	struct pi_device *  	device,
+		uint32_t  	pi_ram_addr,
+		void *  	addr,
+		uint32_t  	size,
+		pi_cl_ram_req_t *  	req 
+	){
+  pi_cl_ram_write(device, pi_ram_addr, addr, size, req)
+}
