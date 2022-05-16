@@ -1,6 +1,7 @@
 // Wrapper for some function declared as static in header files in the pulp-sdk
 #include "stdint.h"
 #include "pmsis.h"
+#include <bsp/bsp.h>
 
 void pi_cl_team_fork_wrap(int nb_cores, void (*entry)(void *), void *arg)
 {
@@ -25,11 +26,11 @@ void pi_cl_dma_wait_wrap(void* copy){
 }
 
 void pi_cl_ram_read_wait_wrap(pi_cl_ram_req_t* req) {
-    pi_cl_ram_read_wait(req)
+  pi_cl_ram_read_wait(req);
 }
 
 void pi_cl_ram_write_wait_wrap(pi_cl_ram_req_t* req) {
-    pi_cl_ram_write_wait(req)
+  pi_cl_ram_write_wait(req);
 }
 
 void pi_cl_ram_read_wrap( 	struct pi_device *  	device,
@@ -38,7 +39,7 @@ void pi_cl_ram_read_wrap( 	struct pi_device *  	device,
 		uint32_t  	size,
 		pi_cl_ram_req_t *  	req 
 	){
-  pi_cl_ram_read(device, pi_ram_addr, addr, size, req)
+  pi_cl_ram_read(device, pi_ram_addr, addr, size, req);
 }
 
 void pi_cl_ram_write_wrap( 	struct pi_device *  	device,
@@ -47,5 +48,5 @@ void pi_cl_ram_write_wrap( 	struct pi_device *  	device,
 		uint32_t  	size,
 		pi_cl_ram_req_t *  	req 
 	){
-  pi_cl_ram_write(device, pi_ram_addr, addr, size, req)
+  pi_cl_ram_write(device, pi_ram_addr, addr, size, req);
 }
