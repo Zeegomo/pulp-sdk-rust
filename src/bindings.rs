@@ -123,6 +123,10 @@ impl PiClRamReq {
             is_2d: 0,
         }
     }
+
+    pub fn is_in_transfer(&self) -> bool {
+        self.ext2loc != 0
+    }
 }
 
 const PI_TASK_IMPLEM_NB_DATA: usize = 8;
