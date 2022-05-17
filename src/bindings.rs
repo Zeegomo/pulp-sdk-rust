@@ -127,6 +127,10 @@ impl PiClRamReq {
     pub fn is_in_transfer(&self) -> bool {
         self.ext2loc != 0
     }
+
+    pub fn device(&self) -> *mut PiDevice {
+        self.device
+    }
 }
 
 const PI_TASK_IMPLEM_NB_DATA: usize = 8;
