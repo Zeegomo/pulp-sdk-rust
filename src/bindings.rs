@@ -88,6 +88,8 @@ extern "C" {
 
     pub fn pi_cl_l1_free(cluster: *mut PiDevice, chunk: *mut cty::c_void, size: cty::c_int);
 
+    pub fn rotate_right_wrap(x: cty::c_int, r: cty::c_int) -> cty::c_int;
+
 }
 
 #[repr(C)]

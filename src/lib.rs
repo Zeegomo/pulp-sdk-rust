@@ -97,3 +97,8 @@ pub unsafe fn pi_cl_team_fork(
 ) {
     pi_cl_team_fork_wrap(num_cores, cluster_fn, args);
 }
+
+#[inline(always)]
+pub fn rotate_right(x: u32, r: u32) -> u32 {
+    unsafe { rotate_right_wrap(x as i32, r as i32) as u32 }
+}
