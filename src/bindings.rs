@@ -33,11 +33,7 @@ pub struct PiDevice {
     data: *mut cty::c_void,
 }
 
-#[repr(C)]
-pub struct PiDeviceApi {
-    _data: [u8; 0],
-    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
-}
+
 
 extern "C" {
     pub fn pi_cl_dma_cmd_wrap(
@@ -90,6 +86,11 @@ extern "C" {
 
     pub fn rotate_right_wrap(x: cty::c_int, r: cty::c_int) -> cty::c_int;
 
+    pub fn pi_cluster_conf_init(conf: *mut PiClusterConf);
+
+    pub fn pi_open_from_conf(device: *mut PiDevice, conf: *mut cty::c_void);
+
+    pub fn pi_cluster_open(device: *mut PiDevice) -> cty::c_int;
 }
 
 #[repr(C)]
@@ -173,4 +174,60 @@ pub unsafe fn pi_core_id() -> usize {
     let core_id: usize;
     core::arch::asm!("csrr {core_id}, 0x014", core_id = out(reg) core_id,);
     core_id & 0x01f
+}
+
+
+
+#[repr(C)]
+pub struct PiClusterConf {
+    // do not move this one, might be accessed in various hackish way
+    device_type: PiDeviceType,
+    /// Cluster ID, starting from 0
+    id: cty::c_int,
+    /// Reserved for internal usage
+    heap_start: *mut cty::c_void,
+    /// Reserved for internal usage
+    heap_size: u32,
+    /// Reserved for internal usage
+    event_kernel: *mut PmsisEventKernelWrap,
+    /// Additional flags
+    flags: PiClusterFlags,
+}
+
+#[repr(C)]
+pub enum PiClusterFlags {
+    PiClusterFlagsForkBased = 0,
+    PiClusterFlagsTaskBased = 1,
+}
+
+#[repr(C)]
+pub enum PiDeviceType {
+    PiDeviceUnkwnType,
+    PiDeviceClusterType,
+    PiDeviceHyperbusType,
+    PiDeviceSpiType,
+    PiDeviceCpiType,
+    PiDeviceI2cType,
+    PiDeviceGpioType,
+    PiDevicePwmType
+}
+
+
+// Opaque structs
+// Not really fully opaque in C but they are not used by Rust code and it's easier to tream them as such
+
+#[repr(C)]
+pub struct PmsisEventKernelWrap {
+    // Private field to avoid instantiation outside of this module
+    _data: [u8; 0],
+    // Do not let the compiler assume stuff it shouldn't
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+#[repr(C)]
+pub struct PiDeviceApi {
+    // Private field to avoid instantiation outside of this module
+    _data: [u8; 0],
+    // Do not let the compiler assume stuff it shouldn't
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
 }
