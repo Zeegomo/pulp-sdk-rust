@@ -33,6 +33,16 @@ pub struct PiDevice {
     data: *mut cty::c_void,
 }
 
+impl PiDevice {
+    pub fn uninit() -> Self {
+        Self {
+            api: core::ptr::null_mut() as *mut PiDeviceApi,
+            config: core::ptr::null_mut() as *mut cty::c_void,
+            data: core::ptr::null_mut() as *mut cty::c_void,
+        }
+    }
+}
+
 
 
 extern "C" {
@@ -192,6 +202,19 @@ pub struct PiClusterConf {
     event_kernel: *mut PmsisEventKernelWrap,
     /// Additional flags
     flags: PiClusterFlags,
+}
+
+impl PiClusterConf {
+    pub fn uninit() -> Self {
+        Self {
+            device_type: PiDeviceType::PiDeviceUnkwnType,
+            id: 0,
+            heap_start: core::ptr::null_mut() as *mut cty::c_void,
+            heap_size: 0,
+            event_kernel: core::ptr::null_mut() as *mut PmsisEventKernelWrap,
+            flags: PiClusterFlags::PiClusterFlagsForkBased,
+        }
+    }
 }
 
 #[repr(C)]
