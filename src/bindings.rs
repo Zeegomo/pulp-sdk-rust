@@ -101,6 +101,8 @@ extern "C" {
     pub fn pi_open_from_conf(device: *mut PiDevice, conf: *mut cty::c_void);
 
     pub fn pi_cluster_open(device: *mut PiDevice) -> cty::c_int;
+
+    pub fn print_wrap(str: *const cty::c_char);
 }
 
 #[repr(C)]

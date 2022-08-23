@@ -4,6 +4,8 @@
 #![feature(nonnull_slice_from_raw_parts)]
 
 use core::sync::atomic::*;
+extern crate alloc as core_alloc;
+use core_alloc::string::String;
 
 mod alloc;
 mod bindings;
@@ -80,6 +82,15 @@ pub fn pi_cl_ram_write(
             size as cty::uint32_t,
             req as *mut PiClRamReq,
         )
+    }
+}
+
+pub fn print(mut msg: String) {
+    unsafe { 
+        let v = msg.as_mut_vec();
+        let len = v.len();
+        v[len-1] = 0;
+        print_wrap(v.as_ptr() as *const cty::c_char) 
     }
 }
 

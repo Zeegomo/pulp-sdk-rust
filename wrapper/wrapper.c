@@ -51,8 +51,7 @@ void pi_cl_ram_write_wrap( 	struct pi_device *  	device,
   pi_cl_ram_write(device, pi_ram_addr, addr, size, req);
 }
 
-int rotate_right_wrap(int x, int a) {
-	int res;
-    asm("p.ror %2,%1,%0" : "=r" (res) : "r" (x), "r" (a));
-    return res;
+
+void print_wrap(char* str) {
+  printf("%s", str);
 }
